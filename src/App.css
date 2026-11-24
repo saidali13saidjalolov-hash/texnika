@@ -1,0 +1,3318 @@
+/* ==========================================================================
+   NTEXNIK — MAISHIY TEXNIKA INTERNET-DO'KONI
+   Fayl: App.css
+   Arxitektura: CSS Custom Properties, Spring Motion, 3D Tilt & Glare,
+   Staggered Reveal, Responsive Grid/List, Drawers & Modals
+   ========================================================================== */
+
+:root {
+  /* Brend va Asosiy Ranglar */
+  --ntx-primary: #1d4ed8;
+  --ntx-primary-hover: #1e40af;
+  --ntx-primary-soft: #eff6ff;
+  --ntx-primary-border: #bfdbfe;
+  --ntx-accent: #0ea5e9;
+  --ntx-accent-glow: rgba(14, 165, 233, 0.28);
+
+  /* Semantik Ranglar */
+  --ntx-rose: #f43f5e;
+  --ntx-rose-hover: #e11d48;
+  --ntx-rose-soft: #fff1f2;
+  --ntx-emerald: #10b981;
+  --ntx-emerald-dark: #047857;
+  --ntx-emerald-soft: #ecfdf5;
+  --ntx-amber: #f59e0b;
+  --ntx-amber-soft: #fffbeb;
+  --ntx-danger: #ef4444;
+
+  /* Neytral Yuzalar va Matnlar */
+  --ntx-bg: #f3f6fb;
+  --ntx-surface: #ffffff;
+  --ntx-surface-alt: #f8fafc;
+  --ntx-surface-muted: #f1f5f9;
+  --ntx-ink: #0f172a;
+  --ntx-ink-secondary: #334155;
+  --ntx-ink-muted: #64748b;
+  --ntx-ink-subtle: #94a3b8;
+  --ntx-border: #e2e8f0;
+  --ntx-border-strong: #cbd5e1;
+
+  /* To'q (Dark Navy) Hero va Footer Ranglari */
+  --ntx-navy-950: #070d19;
+  --ntx-navy-900: #0b1324;
+  --ntx-navy-800: #13203b;
+  --ntx-navy-700: #1e2f52;
+
+  /* Soyalar (Elevation) */
+  --ntx-shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --ntx-shadow-sm: 0 4px 12px rgba(15, 23, 42, 0.06);
+  --ntx-shadow-md: 0 12px 28px -6px rgba(15, 23, 42, 0.1);
+  --ntx-shadow-lg: 0 22px 48px -12px rgba(15, 23, 42, 0.18);
+  --ntx-shadow-glow: 0 14px 32px -8px rgba(29, 78, 216, 0.35);
+
+  /* Burchak Radiuslari */
+  --ntx-radius-sm: 8px;
+  --ntx-radius-md: 12px;
+  --ntx-radius-lg: 18px;
+  --ntx-radius-xl: 24px;
+  --ntx-radius-pill: 9999px;
+
+  /* Animatsiya Egri Chiziqlari (Motion Curves) */
+  --ntx-ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+  --ntx-ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ntx-ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Layout */
+  --ntx-container-max: 1400px;
+}
+
+/* ==========================================================================
+   1. RESET VA ASOSIY TIPOGRAFIYA
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: var(--ntx-bg);
+  color: var(--ntx-ink);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ntx-primary);
+  outline-offset: 2px;
+}
+
+.ntx-app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.ntx-container {
+  width: 100%;
+  max-width: var(--ntx-container-max);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ==========================================================================
+   2. KEYFRAME ANIMATSIYALAR
+   ========================================================================== */
+
+@keyframes ntxCardReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes ntxHeroFadeSlide {
+  0% {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ntxFloatSlow {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes ntxHeartPop {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.38);
+  }
+  65% {
+    transform: scale(0.88);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes ntxParticleBurst {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(var(--angle)) translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-24px)
+      scale(0.2);
+  }
+}
+
+@keyframes ntxCartPulse {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(0.94);
+  }
+  75% {
+    transform: scale(1.04);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes ntxDrawerSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(36px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes ntxModalScaleIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes ntxToastIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes ntxBadgeShimmer {
+  0% {
+    transform: translateX(-120%) skewX(-20deg);
+  }
+  100% {
+    transform: translateX(220%) skewX(-20deg);
+  }
+}
+
+/* ==========================================================================
+   3. TOPBAR VA STICKY HEADER
+   ========================================================================== */
+
+.ntx-topbar {
+  background: var(--ntx-navy-950);
+  color: #cbd5e1;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ntx-topbar__inner {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.ntx-topbar__left,
+.ntx-topbar__right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.ntx-city-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #94a3b8;
+}
+
+.ntx-city-picker select {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-weight: 600;
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.ntx-city-picker select:hover {
+  border-color: var(--ntx-accent);
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.ntx-city-picker select option {
+  background: var(--ntx-navy-900);
+  color: #ffffff;
+}
+
+.ntx-topbar__eta strong {
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+.ntx-topbar__link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #cbd5e1;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.ntx-topbar__link:hover {
+  color: #ffffff;
+}
+
+.ntx-topbar__sep {
+  color: #475569;
+}
+
+.ntx-topbar__phone {
+  color: #ffffff;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+/* Sticky Header */
+.ntx-header {
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--ntx-border);
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+}
+
+.ntx-header__inner {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+/* Logo */
+.ntx-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  flex-shrink: 0;
+}
+
+.ntx-logo__mark {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--ntx-primary) 0%, var(--ntx-accent) 100%);
+  color: #ffffff;
+  font-weight: 900;
+  font-size: 22px;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 8px 18px rgba(29, 78, 216, 0.28);
+  transition: transform 0.3s var(--ntx-ease-bounce);
+}
+
+.ntx-logo:hover .ntx-logo__mark {
+  transform: rotate(-6deg) scale(1.06);
+}
+
+.ntx-logo__text {
+  display: flex;
+  flex-direction: column;
+}
+
+.ntx-logo__name {
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--ntx-ink);
+}
+
+.ntx-logo__tag {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ntx-ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ntx-logo--light .ntx-logo__name {
+  color: #ffffff;
+}
+
+.ntx-logo--light .ntx-logo__tag {
+  color: #94a3b8;
+}
+
+/* Katalog tugmasi */
+.ntx-catalog-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 46px;
+  padding: 0 18px;
+  border: none;
+  border-radius: var(--ntx-radius-md);
+  background: var(--ntx-primary);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 14.5px;
+  flex-shrink: 0;
+  box-shadow: 0 6px 16px rgba(29, 78, 216, 0.24);
+  transition: background-color 0.2s ease, transform 0.2s var(--ntx-ease-spring);
+}
+
+.ntx-catalog-btn:hover {
+  background: var(--ntx-primary-hover);
+  transform: translateY(-1px);
+}
+
+.ntx-catalog-btn__bars {
+  display: flex;
+  flex-direction: column;
+  gap: 3.5px;
+  width: 16px;
+}
+
+.ntx-catalog-btn__bars i {
+  display: block;
+  height: 2px;
+  background: #ffffff;
+  border-radius: 2px;
+}
+
+.ntx-catalog-btn__bars i:nth-child(2) {
+  width: 12px;
+}
+
+/* Qidiruv maydoni */
+.ntx-search {
+  position: relative;
+  flex: 1;
+  min-width: 220px;
+}
+
+.ntx-search__field {
+  display: flex;
+  align-items: center;
+  height: 46px;
+  background: var(--ntx-surface-alt);
+  border: 1.5px solid var(--ntx-border);
+  border-radius: var(--ntx-radius-md);
+  padding: 3px 4px 3px 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.ntx-search__field:focus-within {
+  background: #ffffff;
+  border-color: var(--ntx-primary);
+  box-shadow: 0 0 0 4px rgba(29, 78, 216, 0.12);
+}
+
+.ntx-search__icon {
+  font-size: 15px;
+  margin-right: 10px;
+  opacity: 0.65;
+}
+
+.ntx-search__field input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 14px;
+  color: var(--ntx-ink);
+  min-width: 0;
+}
+
+.ntx-search__field input::placeholder {
+  color: var(--ntx-ink-subtle);
+}
+
+.ntx-search__clear {
+  border: none;
+  background: transparent;
+  color: var(--ntx-ink-muted);
+  padding: 4px 8px;
+  font-size: 13px;
+}
+
+.ntx-search__submit {
+  height: 38px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 9px;
+  background: var(--ntx-ink);
+  color: #ffffff;
+  font-size: 13.5px;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.ntx-search__submit:hover {
+  background: var(--ntx-primary);
+}
+
+/* Qidiruv natijalari dropdown */
+.ntx-search__dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border: 1px solid var(--ntx-border);
+  border-radius: var(--ntx-radius-lg);
+  box-shadow: var(--ntx-shadow-lg);
+  z-index: 110;
+  overflow: hidden;
+  animation: ntxModalScaleIn 0.2s var(--ntx-ease-spring);
+}
+
+.ntx-search__drop-head {
+  padding: 10px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ntx-ink-muted);
+  background: var(--ntx-surface-alt);
+  border-bottom: 1px solid var(--ntx-border);
+}
+
+.ntx-search__empty {
+  padding: 20px;
+  text-align: center;
+  color: var(--ntx-ink-muted);
+  font-size: 14px;
+}
+
+.ntx-search__drop-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  border: none;
+  border-bottom: 1px solid var(--ntx-surface-muted);
+  background: #ffffff;
+  text-align: left;
+  transition: background-color 0.16s ease;
+}
+
+.ntx-search__drop-item:hover {
+  background: var(--ntx-primary-soft);
+}
+
+.ntx-search__drop-item img {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: var(--ntx-surface-muted);
+  flex-shrink: 0;
+}
+
+.ntx-search__drop-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.ntx-search__drop-info strong {
+  font-size: 13.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ntx-search__drop-info span {
+  font-size: 12px;
+  color: var(--ntx-ink-muted);
+}
+
+.ntx-search__drop-price {
+  font-weight: 700;
+  font-size: 13.5px;
+  color: var(--ntx-primary);
+  white-space: nowrap;
+}
+
+/* Header Action Tugmalari (Taqqoslash, Sevimlilar, Savatcha) */
+.ntx-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.ntx-header-action {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 46px;
+  padding: 0 14px;
+  border-radius: var(--ntx-radius-md);
+  border: 1px solid var(--ntx-border);
+  background: #ffffff;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ntx-ink-secondary);
+  transition: all 0.2s var(--ntx-ease-spring);
+}
+
+.ntx-header-action:hover {
+  border-color: var(--ntx-primary-border);
+  background: var(--ntx-primary-soft);
+  color: var(--ntx-primary);
+  transform: translateY(-1px);
+}
+
+.ntx-header-action--fav.has-items {
+  border-color: #fecdd3;
+  background: var(--ntx-rose-soft);
+  color: var(--ntx-rose-hover);
+}
+
+.ntx-header-action--cart {
+  background: var(--ntx-ink);
+  border-color: var(--ntx-ink);
+  color: #ffffff;
+}
+
+.ntx-header-action--cart:hover {
+  background: var(--ntx-primary);
+  border-color: var(--ntx-primary);
+  color: #ffffff;
+}
+
+.ntx-header-action__cart-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.15;
+}
+
+.ntx-header-action__cart-meta .ntx-header-action__label {
+  font-size: 11px;
+  opacity: 0.78;
+}
+
+.ntx-header-action__sum {
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.ntx-header-action__badge {
+  min-width: 21px;
+  height: 21px;
+  padding: 0 6px;
+  border-radius: var(--ntx-radius-pill);
+  background: var(--ntx-ink);
+  color: #ffffff;
+  font-size: 11.5px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ntx-header-action__badge--rose {
+  background: var(--ntx-rose);
+}
+
+.ntx-header-action__badge--primary {
+  background: var(--ntx-accent);
+  color: var(--ntx-navy-950);
+}
+
+/* Kategoriyalar Navigatsiya Tasmasi */
+.ntx-cat-nav {
+  border-top: 1px solid var(--ntx-surface-muted);
+  background: rgba(248, 250, 252, 0.85);
+}
+
+.ntx-cat-nav__inner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 9px;
+  padding-bottom: 9px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.ntx-cat-nav__inner::-webkit-scrollbar {
+  display: none;
+}
+
+.ntx-cat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  border-radius: var(--ntx-radius-pill);
+  border: 1px solid transparent;
+  background: #ffffff;
+  color: var(--ntx-ink-secondary);
+  font-size: 13.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: var(--ntx-shadow-xs);
+  transition: all 0.2s var(--ntx-ease-spring);
+}
+
+.ntx-cat-pill:hover {
+  border-color: var(--ntx-primary-border);
+  color: var(--ntx-primary);
+  transform: translateY(-1px);
+}
+
+.ntx-cat-pill.is-active {
+  background: var(--ntx-primary);
+  color: #ffffff;
+  box-shadow: 0 6px 14px rgba(29, 78, 216, 0.26);
+}
+
+.ntx-cat-pill__tag {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: var(--ntx-radius-pill);
+  background: var(--ntx-surface-muted);
+  color: var(--ntx-ink-muted);
+}
+
+.ntx-cat-pill.is-active .ntx-cat-pill__tag {
+  background: rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+}
+
+.ntx-cat-pill--fav.is-active {
+  background: var(--ntx-rose);
+  box-shadow: 0 6px 14px rgba(244, 63, 94, 0.28);
+}
+
+/* ==========================================================================
+   4. HERO SHOWCASE VA KUN MAHSULOTI (FLASH DEAL)
+   ========================================================================== */
+
+.ntx-hero-section {
+  padding: 24px 0 18px;
+}
+
+.ntx-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.75fr) minmax(320px, 0.85fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+.ntx-hero-banner {
+  position: relative;
+  border-radius: var(--ntx-radius-xl);
+  background: radial-gradient(
+      circle at 85% 20%,
+      rgba(14, 165, 233, 0.26),
+      transparent 48%
+    ),
+    linear-gradient(135deg, var(--ntx-navy-950) 0%, var(--ntx-navy-800) 100%);
+  color: #ffffff;
+  padding: 34px 36px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(240px, 0.85fr);
+  gap: 24px;
+  align-items: center;
+  overflow: hidden;
+  box-shadow: var(--ntx-shadow-lg);
+}
+
+.ntx-hero-banner__content {
+  position: relative;
+  z-index: 2;
+  animation: ntxHeroFadeSlide 0.55s var(--ntx-ease-spring);
+}
+
+.ntx-hero-banner__badges {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.ntx-hero-banner__eyebrow {
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.14);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  padding: 5px 11px;
+  border-radius: var(--ntx-radius-pill);
+}
+
+.ntx-hero-banner__promo {
+  font-size: 12px;
+  font-weight: 700;
+  background: linear-gradient(90deg, #f59e0b, #f97316);
+  color: #ffffff;
+  padding: 5px 12px;
+  border-radius: var(--ntx-radius-pill);
+}
+
+.ntx-hero-banner__title {
+  margin: 0 0 14px;
+  font-size: clamp(24px, 2.7vw, 36px);
+  font-weight: 800;
+  line-height: 1.16;
+  letter-spacing: -0.025em;
+}
+
+.ntx-hero-banner__subtitle {
+  margin: 0 0 24px;
+  color: #cbd5e1;
+  font-size: 15px;
+  line-height: 1.6;
+  max-width: 54ch;
+}
+
+.ntx-hero-banner__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 26px;
+}
+
+.ntx-hero-banner__stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.ntx-hero-stat strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.ntx-hero-stat span {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.ntx-hero-banner__visual {
+  position: relative;
+  height: 100%;
+  min-height: 270px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.ntx-hero-banner__img {
+  width: 100%;
+  height: 295px;
+  object-fit: cover;
+  border-radius: var(--ntx-radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  animation: ntxFloatSlow 5s ease-in-out infinite;
+}
+
+.ntx-hero-banner__controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.ntx-hero-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--ntx-radius-pill);
+  border: none;
+  background: rgba(255, 255, 255, 0.32);
+  padding: 0;
+  transition: all 0.25s var(--ntx-ease-spring);
+}
+
+.ntx-hero-dot.is-active {
+  width: 28px;
+  background: #38bdf8;
+}
+
+/* Kun Mahsuloti (Flash Deal) */
+.ntx-flash-deal {
+  background: #ffffff;
+  border-radius: var(--ntx-radius-xl);
+  border: 1px solid var(--ntx-border);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--ntx-shadow-sm);
+}
+
+.ntx-flash-deal__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.ntx-flash-deal__badge {
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #b45309;
+  background: var(--ntx-amber-soft);
+  border: 1px solid #fde68a;
+  padding: 4px 10px;
+  border-radius: var(--ntx-radius-pill);
+}
+
+.ntx-countdown {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 800;
+  font-size: 13px;
+  color: var(--ntx-ink);
+}
+
+.ntx-countdown span {
+  background: var(--ntx-ink);
+  color: #ffffff;
+  padding: 3px 6px;
+  border-radius: 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+.ntx-flash-deal__media {
+  position: relative;
+  height: 170px;
+  border-radius: var(--ntx-radius-md);
+  overflow: hidden;
+  background: var(--ntx-surface-alt);
+  cursor: pointer;
+  margin-bottom: 14px;
+}
+
+.ntx-flash-deal__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.45s var(--ntx-ease-spring);
+}
+
+.ntx-flash-deal__media:hover img {
+  transform: scale(1.06);
+}
+
+.ntx-flash-deal__save {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background: rgba(15, 23, 42, 0.86);
+  color: #ffffff;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--ntx-radius-pill);
+  backdrop-filter: blur(6px);
+}
+
+.ntx-flash-deal__brand {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ntx-ink-muted);
+}
+
+.ntx-flash-deal__title {
+  margin: 4px 0 10px;
+  font-size: 15.5px;
+  font-weight: 700;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.ntx-flash-deal__prices {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.ntx-flash-deal__prices strong {
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--ntx-primary);
+}
+
+.ntx-flash-deal__prices span {
+  font-size: 13px;
+  color: var(--ntx-ink-subtle);
+  text-decoration: line-through;
+}
+
+.ntx-flash-deal__progress {
+  margin-bottom: 14px;
+}
+
+.ntx-flash-deal__progress-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ntx-ink-muted);
+  margin-bottom: 5px;
+}
+
+.ntx-flash-deal__bar {
+  height: 7px;
+  border-radius: var(--ntx-radius-pill);
+  background: var(--ntx-surface-muted);
+  overflow: hidden;
+}
+
+.ntx-flash-deal__bar div {
+  height: 100%;
+  border-radius: var(--ntx-radius-pill);
+  background: linear-gradient(90deg, var(--ntx-amber), #ef4444);
+}
+
+.ntx-flash-deal__actions {
+  display: flex;
+  gap: 8px;
+}
+
+.ntx-flash-deal__actions .ntx-btn--primary {
+  flex: 1;
+}
+
+/* ==========================================================================
+   5. UMUMIY TUGMALAR TIZIMI (Buttons)
+   ========================================================================== */
+
+.ntx-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 42px;
+  padding: 0 18px;
+  border-radius: var(--ntx-radius-md);
+  border: 1px solid transparent;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: all 0.22s var(--ntx-ease-spring);
+}
+
+.ntx-btn--lg {
+  height: 48px;
+  padding: 0 22px;
+  font-size: 15px;
+}
+
+.ntx-btn--sm {
+  height: 34px;
+  padding: 0 12px;
+  font-size: 12.5px;
+  border-radius: 9px;
+}
+
+.ntx-btn--full {
+  width: 100%;
+}
+
+.ntx-btn--primary {
+  background: var(--ntx-primary);
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(29, 78, 216, 0.24);
+}
+
+.ntx-btn--primary:hover:not(:disabled) {
+  background: var(--ntx-primary-hover);
+  transform: translateY(-1.5px);
+  box-shadow: 0 10px 22px rgba(29, 78, 216, 0.32);
+}
+
+.ntx-btn--secondary {
+  background: #ffffff;
+  border-color: var(--ntx-border);
+  color: var(--ntx-ink);
+}
+
+.ntx-btn--secondary:hover {
+  border-color: var(--ntx-primary);
+  color: var(--ntx-primary);
+  background: var(--ntx-primary-soft);
+}
+
+.ntx-btn--glass {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  backdrop-filter: blur(8px);
+}
+
+.ntx-btn--glass:hover {
+  background: rgba(255, 255, 255, 0.22);
+  transform: translateY(-1.5px);
+}
+
+.ntx-btn--ghost {
+  background: transparent;
+  color: var(--ntx-ink-muted);
+}
+
+.ntx-btn--ghost:hover {
+  background: var(--ntx-surface-muted);
+  color: var(--ntx-danger);
+}
+
+.ntx-btn--outline-icon {
+  width: 42px;
+  padding: 0;
+  background: #ffffff;
+  border-color: var(--ntx-border);
+  font-size: 17px;
+}
+
+.ntx-btn--outline-icon:hover,
+.ntx-btn--outline-icon.is-fav {
+  border-color: #fecdd3;
+  background: var(--ntx-rose-soft);
+}
+
+.ntx-link-btn {
+  background: none;
+  border: none;
+  color: var(--ntx-primary);
+  font-weight: 700;
+  font-size: 13.5px;
+  padding: 4px 8px;
+}
+
+.ntx-link-btn:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   6. TRUST STRIP VA BRENDLAR TASMASI
+   ========================================================================== */
+
+.ntx-trust-strip {
+  padding: 12px 0 24px;
+}
+
+.ntx-trust-strip__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.ntx-trust-card {
+  background: #ffffff;
+  border: 1px solid var(--ntx-border);
+  border-radius: var(--ntx-radius-lg);
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: var(--ntx-shadow-xs);
+  transition: transform 0.25s var(--ntx-ease-spring), box-shadow 0.25s ease;
+}
+
+.ntx-trust-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--ntx-shadow-sm);
+}
+
+.ntx-trust-card__icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 13px;
+  background: var(--ntx-primary-soft);
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.ntx-trust-card strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.ntx-trust-card p {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--ntx-ink-muted);
+}
+
+/* Brendlar */
+.ntx-brands-section {
+  padding: 10px 0 26px;
+}
+
+.ntx-section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.ntx-section-title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.ntx-section-sub {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: var(--ntx-ink-muted);
+}
+
+.ntx-brands-row {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(115px, 1fr));
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.ntx-brand-tile {
+  background: #ffffff;
+  border: 1.5px solid var(--ntx-border);
+  border-radius: var(--ntx-radius-md);
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  transition: all 0.2s var(--ntx-ease-spring);
+}
+
+.ntx-brand-tile:hover {
+  border-color: var(--ntx-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--ntx-shadow-sm);
+}
+
+.ntx-brand-tile.is-selected {
+  background: var(--ntx-primary);
+  border-color: var(--ntx-primary);
+  color: #ffffff;
+}
+
+.ntx-brand-tile__name {
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.ntx-brand-tile__count {
+  font-size: 11.5px;
+  color: var(--ntx-ink-muted);
+}
+
+.ntx-brand-tile.is-selected .ntx-brand-tile__count {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* ==========================================================================
+   7. KATALOG LAYOUT, SIDEBAR FILTRLAR VA SARALASH
+   ========================================================================== */
+
+.ntx-catalog-section {
+  padding: 12px 0 48px;
+}
+
+.ntx-catalog-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+
+.ntx-catalog-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.ntx-mobile-filter-btn {
+  display: none;
+}
+
+.ntx-sort-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border: 1px solid var(--ntx-border);
+  border-radius: var(--ntx-radius-md);
+  padding: 0 12px;
+  height: 42px;
+  font-size: 13.5px;
+  color: var(--ntx-ink-muted);
+}
+
+.ntx-sort-box select {
+  border: none;
+  background: transparent;
+  font-weight: 700;
+  color: var(--ntx-ink);
+  outline: none;
+  cursor: pointer;
+}
+
+.ntx-view-switch {
+  display: inline-flex;
+  background: #ffffff;
+  border: 1px solid var(--ntx-border);
+  border-radius: var(--ntx-radius-md);
+  padding: 3px;
+  height: 42px;
+}
+
+.ntx-view-switch button {
+  width: 36px;
+  border: none;
+  border-radius: 9px;
+  background: transparent;
+  font-size: 17px;
+  color: var(--ntx-ink-muted);
+  transition: all 0.2s ease;
+}
+
+.ntx-view-switch button.is-active {
+  background: var(--ntx-primary);
+  color: #ffffff;
+}
+
+.ntx-catalog-layout {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+/* Sidebar */
+.ntx-sidebar {
+  position: sticky;
+  top: 132px;
+  background: #ffffff;
+  border: 1px solid var(--ntx-border);
+  border-radius: var(--ntx-radius-lg);
+  padding: 20px;
+  box-shadow: var(--ntx-shadow-xs);
+}
+
+.ntx-sidebar__mobile-head {
+  display: none;
+}
+
+.ntx-filter-group {
+  padding-bottom: 18px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid var(--ntx-surface-muted);
+}
+
+.ntx-filter-group:last-of-type {
+  border-bottom: none;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+}
+
+.ntx-filter-group h3 {
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--ntx-ink);
+}
+
+.ntx-filter-group__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.ntx-filter-group__head h3 {
+  margin: 0;
+}
+
+.ntx-filter-price-val {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--ntx-primary);
+}
+
+.ntx-range-input {
+  width: 100%;
+  accent-color: var(--ntx-primary);
+  cursor: pointer;
+}
+
+.ntx-range-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11.5px;
+  color: var(--ntx-ink-subtle);
+  margin-top: 4px;
+}
+
+.ntx-check-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13.5px;
+  color: var(--ntx-ink-secondary);
+  padding: 5px 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.ntx-check-row input[type='checkbox'] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--ntx-primary);
+  cursor: pointer;
+}
+
+.ntx-energy-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ntx-energy-pill {
+  padding: 5px 11px;
+  border-radius: var(--ntx-radius-pill);
+  border: 1px solid var(--ntx-border);
+  background: var(--ntx-surface-alt);
+  font-size: 12.5px;
+  font-weight: 700;
+  transition: all 0.18s ease;
+}
+
+.ntx-energy-pill.is-active {
+  background: var(--ntx-emerald);
+  border-color: var(--ntx-emerald);
+  color: #ffffff;
+}
+
+.ntx-brand-checks {
+  max-height: 220px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* Products Grid / List */
+.ntx-products-grid--grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.ntx-products-grid--list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ntx-empty-state {
+  background: #ffffff;
+  border: 1px solid var(--ntx-border);
+  border-radius: var(--ntx-radius-xl);
+  padding: 56px 24px;
+  text-align: center;
+}
+
+.ntx-empty-state__icon {
+  font-size: 42px;
+  margin-bottom: 12px;
+}
+
+.ntx-empty-state h3 {
+  margin: 0 0 8px;
+  font-size: 19px;
+}
+
+.ntx-empty-state p {
+  margin: 0 0 20px;
+  color: var(--ntx-ink-muted);
+}
+
+/* ==========================================================================
+   8. PRODUCT CARD KOMPONENTI (3D Tilt, Glare, Heart Burst, Installments)
+   ========================================================================== */
+
+.ntx-card {
+  position: relative;
+  background: var(--ntx-surface);
+  border: 1px solid var(--ntx-border);
+  border-radius: var(--ntx-radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--ntx-shadow-xs);
+  transition: transform 0.28s var(--ntx-ease-spring),
+    box-shadow 0.28s var(--ntx-ease-spring), border-color 0.25s ease;
+  animation: ntxCardReveal 0.55s var(--ntx-ease-spring) backwards;
+  will-change: transform;
+  cursor: pointer;
+}
+
+.ntx-card:hover {
+  border-color: var(--ntx-primary-border);
+  box-shadow: var(--ntx-shadow-md);
+}
+
+.ntx-card--in-cart {
+  border-color: #93c5fd;
+  box-shadow: 0 6px 20px rgba(29, 78, 216, 0.09);
+}
+
+.ntx-card--soldout {
+  opacity: 0.72;
+}
+
+.ntx-card--list {
+  flex-direction: row;
+  align-items: stretch;
+}
+
+/* 3D Yorug'lik jilosi */
+.ntx-card__glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 6;
+  transition: opacity 0.25s ease;
+}
+
+/* Media Qismi */
+.ntx-card__media {
+  position: relative;
+  background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 245px;
+  border-bottom: 1px solid var(--ntx-surface-muted);
+}
+
+.ntx-card--list .ntx-card__media {
+  width: 285px;
+  flex-shrink: 0;
+  border-bottom: none;
+  border-right: 1px solid var(--ntx-surface-muted);
+}
+
+/* Yuqori chap badgelar */
+.ntx-card__badges {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  max-width: calc(100% - 44px);
+}
+
+.ntx-badge {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3.5px 9px;
+  border-radius: 7px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.ntx-badge--discount {
+  background: var(--ntx-rose);
+  color: #ffffff;
+}
+
+.ntx-badge--discount::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.45),
+    transparent
+  );
+  animation: ntxBadgeShimmer 2.8s infinite;
+}
+
+.ntx-badge--hit {
+  background: var(--ntx-amber);
+  color: #451a03;
+}
+
+.ntx-badge--new {
+  background: var(--ntx-primary);
+  color: #ffffff;
+}
+
+.ntx-badge--inverter {
+  background: var(--ntx-navy-900);
+  color: #38bdf8;
+}
+
+/* O'ng harakatlar ustuni (Sevimlilar, Taqqoslash, QuickView) */
+.ntx-card__actions-rail {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.ntx-icon-btn {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  color: var(--ntx-ink-secondary);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.07);
+  transition: all 0.22s var(--ntx-ease-bounce);
+}
+
+.ntx-icon-btn:hover {
+  transform: scale(1.09);
+  color: var(--ntx-primary);
+  border-color: var(--ntx-primary-border);
+  background: #ffffff;
+}
+
+.ntx-icon-btn--fav:hover,
+.ntx-icon-btn--fav.is-active {
+  color: var(--ntx-rose);
+  border-color: #fecdd3;
+  background: var(--ntx-rose-soft);
+}
+
+.ntx-icon-btn--fav.is-bursting svg {
+  animation: ntxHeartPop 0.55s var(--ntx-ease-bounce);
+}
+
+/* Yurakcha portlash zarrachalari (6-particle burst) */
+.ntx-heart-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.ntx-heart-particles i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--ntx-rose);
+  animation: ntxParticleBurst 0.6s var(--ntx-ease-spring) forwards;
+}
+
+.ntx-heart-particles i:nth-child(1) { --angle: 0deg; }
+.ntx-heart-particles i:nth-child(2) { --angle: 60deg; background: #fb7185; }
+.ntx-heart-particles i:nth-child(3) { --angle: 120deg; }
+.ntx-heart-particles i:nth-child(4) { --angle: 180deg; background: #f59e0b; }
+.ntx-heart-particles i:nth-child(5) { --angle: 240deg; }
+.ntx-heart-particles i:nth-child(6) { --angle: 300deg; background: #fb7185; }
+
+/* Rasm sahnasi va galereya */
+.ntx-card__image-stage {
+  position: relative;
+  height: 175px;
+  margin: 8px 0;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ntx-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  transition: transform 0.5s var(--ntx-ease-spring);
+}
+
+.ntx-card:hover .ntx-card__img {
+  transform: scale(1.06);
+}
+
+.ntx-card__gallery-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--ntx-ink);
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  box-shadow: var(--ntx-shadow-xs);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.ntx-card__media:hover .ntx-card__gallery-nav {
+  opacity: 1;
+}
+
+.ntx-card__gallery-nav--prev {
+  left: 6px;
+}
+
+.ntx-card__gallery-nav--next {
+  right: 6px;
+}
+
+.ntx-card__gallery-dots {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+  background: rgba(15, 23, 42, 0.45);
+  padding: 4px 8px;
+  border-radius: var(--ntx-radius-pill);
+  backdrop-filter: blur(4px);
+}
+
+.ntx-card__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.5);
+  transition: all 0.2s ease;
+}
+
+.ntx-card__dot.is-active {
+  width: 14px;
+  border-radius: var(--ntx-radius-pill);
+  background: #ffffff;
+}
+
+.ntx-card__media-footer {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.ntx-card__warranty-pill,
+.ntx-card__wifi-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--ntx-ink-secondary);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.ntx-card__wifi-pill {
+  color: var(--ntx-primary);
+}
+
+/* Kartochka Tanasi */
+.ntx-card__body {
+  flex: 1;
+  padding: 16px 18px 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.ntx-card__meta-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.ntx-card__brand-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ntx-card__brand {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ntx-primary);
+}
+
+.ntx-card__sku {
+  font-size: 11px;
+  color: var(--ntx-ink-subtle);
+}
+
+.ntx-card__rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.ntx-card__reviews {
+  color: var(--ntx-ink-subtle);
+  font-weight: 500;
+}
+
+.ntx-card__title {
+  margin: 0 0 10px;
+  font-size: 15.5px;
+  font-weight: 700;
+  line-height: 1.38;
+}
+
+.ntx-card__title-btn {
+  border: none;
+  background: none;
+  padding: 0;
+  text-align: left;
+  color: var(--ntx-ink);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: color 0.18s ease;
+}
+
+.ntx-card__title-btn:hover {
+  color: var(--ntx-primary);
+}
+
+.ntx-card__excerpt {
+  margin: 0 0 12px;
+  font-size: 13.5px;
+  color: var(--ntx-ink-muted);
+  line-height: 1.5;
+}
+
+/* Variantlar */
+.ntx-card__variants {
+  margin-bottom: 12px;
+}
+
+.ntx-card__variants-label {
+  display: block;
+  font-size: 11.5px;
+  color: var(--ntx-ink-muted);
+  margin-bottom: 6px;
+}
+
+.ntx-card__variant-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ntx-variant-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 9px;
+  border-radius: 7px;
+  border: 1px solid var(--ntx-border);
+  background: var(--ntx-surface-alt);
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--ntx-ink-secondary);
+  transition: all 0.18s ease;
+}
+
+.ntx-variant-chip:hover {
+  border-color: var(--ntx-primary);
+}
+
+.ntx-variant-chip.is-selected {
+  background: var(--ntx-primary-soft);
+  border-color: var(--ntx-primary);
+  color: var(--ntx-primary);
+  font-weight: 700;
+}
+
+.ntx-variant-chip__swatch {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 1px solid rgba(15, 23, 42, 0.22);
+}
+
+/* Texnik xususiyatlar */
+.ntx-card__specs-box {
+  background: var(--ntx-surface-alt);
+  border-radius: 10px;
+  padding: 9px 11px;
+  margin-bottom: 12px;
+}
+
+.ntx-card__specs-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ntx-card__spec-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.ntx-card__spec-key {
+  color: var(--ntx-ink-muted);
+  white-space: nowrap;
+}
+
+.ntx-card__spec-val {
+  font-weight: 600;
+  color: var(--ntx-ink);
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ntx-card__specs-toggle {
+  margin-top: 6px;
+  border: none;
+  background: none;
+  padding: 0;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--ntx-primary);
+}
+
+/* Logistika va ombor */
+.ntx-card__logistics {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 11.5px;
+  color: var(--ntx-ink-muted);
+  margin-bottom: 14px;
+  margin-top: auto;
+}
+
+.ntx-card__stock,
+.ntx-card__delivery {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 600;
+}
+
+.ntx-card__stock-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+/* Footer: Muddatli to'lov va Narx */
+.ntx-card__footer {
+  border-top: 1px solid var(--ntx-surface-muted);
+  padding-top: 12px;
+}
+
+.ntx-installment {
+  position: relative;
+  margin-bottom: 11px;
+}
+
+.ntx-installment__trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #fde68a;
+  background: var(--ntx-amber-soft);
+  font-size: 12px;
+  transition: background-color 0.18s ease;
+}
+
+.ntx-installment__trigger:hover {
+  background: #fef3c7;
+}
+
+.ntx-installment__badge {
+  font-weight: 800;
+  color: #92400e;
+}
+
+.ntx-installment__term {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-weight: 700;
+  color: #b45309;
+}
+
+.ntx-installment__popover {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  background: #ffffff;
+  border: 1px solid var(--ntx-border);
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: var(--ntx-shadow-lg);
+  animation: ntxModalScaleIn 0.18s var(--ntx-ease-spring);
+}
+
+.ntx-installment__popover-head {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--ntx-ink-muted);
+  margin-bottom: 7px;
+}
+
+.ntx-installment__plans {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+}
+
+.ntx-installment__plan-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 4px;
+  border-radius: 8px;
+  border: 1px solid var(--ntx-border);
+  background: var(--ntx-surface-alt);
+  font-size: 11px;
+}
+
+.ntx-installment__plan-btn.is-active {
+  background: var(--ntx-primary);
+  border-color: var(--ntx-primary);
+  color: #ffffff;
+}
+
+.ntx-card__purchase-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.ntx-card__price-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.ntx-card__old-price {
+  font-size: 12px;
+  color: var(--ntx-ink-subtle);
+  text-decoration: line-through;
+}
+
+.ntx-card__current-price {
+  font-size: 17.5px;
+  font-weight: 800;
+  color: var(--ntx-ink);
+  letter-spacing: -0.02em;
+}
+
+/* Savat tugmasi va Stepper */
+.ntx-add-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 40px;
+  padding: 0 15px;
+  border: none;
+  border-radius: 11px;
+  background: var(--ntx-primary);
+  color: #ffffff;
+  font-size: 13.5px;
+  font-weight: 700;
+  box-shadow: 0 6px 14px rgba(29, 78, 216, 0.24);
+  transition: all 0.22s var(--ntx-ease-spring);
+}
+
+.ntx-add-btn:hover:not(:disabled) {
+  background: var(--ntx-primary-hover);
+  transform: translateY(-1.5px);
+}
+
+.ntx-add-btn:disabled {
+  background: var(--ntx-ink-subtle);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.ntx-add-btn.is-added-anim {
+  background: var(--ntx-emerald);
+  animation: ntxCartPulse 0.45s var(--ntx-ease-bounce);
+}
+
+.ntx-stepper {
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  border-radius: 11px;
+  border: 1.5px solid var(--ntx-primary);
+  background: var(--ntx-primary-soft);
+  overflow: hidden;
+}
+
+.ntx-stepper__btn {
+  width: 34px;
+  height: 100%;
+  border: none;
+  background: transparent;
+  color: var(--ntx-primary);
+  display: grid;
+  place-items: center;
+  transition: background-color 0.16s ease;
+}
+
+.ntx-stepper__btn:hover:not(:disabled) {
+  background: var(--ntx-primary);
+  color: #ffffff;
+}
+
+.ntx-stepper__count {
+  min-width: 28px;
+  text-align: center;
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--ntx-primary);
+}
+
+/* ==========================================================================
+   9. INTERAKTIV MUDDATLI TO'LOV KALKULYATORI
+   ========================================================================== */
+
+.ntx-calc-section {
+  padding: 16px 0 56px;
+}
+
+.ntx-calc-card {
+  border-radius: var(--ntx-radius-xl);
+  background: linear-gradient(135deg, var(--ntx-navy-900) 0%, var(--ntx-navy-700) 100%);
+  color: #ffffff;
+  padding: 36px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.85fr);
+  gap: 32px;
+  align-items: center;
+  box-shadow: var(--ntx-shadow-lg);
+}
+
+.ntx-calc-badge {
+  display: inline-block;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.14);
+  padding: 5px 12px;
+  border-radius: var(--ntx-radius-pill);
+  margin-bottom: 12px;
+}
+
+.ntx-calc-card__left h2 {
+  margin: 0 0 10px;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.ntx-calc-card__left p {
+  margin: 0 0 22px;
+  color: #cbd5e1;
+  font-size: 14.5px;
+}
+
+.ntx-calc-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ntx-calc-field label,
+.ntx-calc-field > span {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #94a3b8;
+  margin-bottom: 7px;
+}
+
+.ntx-calc-field select {
+  width: 100%;
+  height: 44px;
+  border-radius: 11px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  padding: 0 14px;
+  font-weight: 600;
+}
+
+.ntx-calc-field select option {
+  background: var(--ntx-navy-900);
+  color: #ffffff;
+}
+
+.ntx-calc-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ntx-calc-pills button {
+  padding: 8px 15px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.06);
+  color: #e2e8f0;
+  font-size: 13.5px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.ntx-calc-pills button.is-active {
+  background: #38bdf8;
+  border-color: #38bdf8;
+  color: var(--ntx-navy-950);
+}
+
+.ntx-calc-card__right {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--ntx-radius-lg);
+  padding: 24px;
+  backdrop-filter: blur(12px);
+}
+
+.ntx-calc-preview {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.ntx-calc-preview img {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.ntx-calc-preview span {
+  display: block;
+  font-size: 12px;
+  color: #38bdf8;
+  font-weight: 700;
+}
+
+.ntx-calc-preview strong {
+  font-size: 14.5px;
+  line-height: 1.3;
+}
+
+.ntx-calc-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.ntx-calc-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #cbd5e1;
+}
+
+.ntx-calc-row--highlight {
+  padding-top: 10px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.2);
+  font-size: 16px;
+  color: #ffffff;
+}
+
+.ntx-calc-row--highlight strong {
+  font-size: 21px;
+  color: #38bdf8;
+}
+
+/* ==========================================================================
+   10. FOOTER
+   ========================================================================== */
+
+.ntx-footer {
+  margin-top: auto;
+  background: var(--ntx-navy-950);
+  color: #cbd5e1;
+  padding-top: 52px;
+}
+
+.ntx-footer__grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1.1fr;
+  gap: 32px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ntx-footer__brand p {
+  margin: 14px 0 16px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #94a3b8;
+}
+
+.ntx-footer__promos {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 12.5px;
+}
+
+.ntx-footer__promos code {
+  background: rgba(56, 189, 248, 0.16);
+  color: #38bdf8;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+.ntx-footer h4 {
+  margin: 0 0 14px;
+  color: #ffffff;
+  font-size: 15.5px;
+  font-weight: 700;
+}
+
+.ntx-footer ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.ntx-footer ul button {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #94a3b8;
+  font-size: 14px;
+  text-align: left;
+  transition: color 0.18s ease;
+}
+
+.ntx-footer ul button:hover {
+  color: #ffffff;
+}
+
+.ntx-footer__phone {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.ntx-footer p {
+  font-size: 13.5px;
+  color: #94a3b8;
+  margin: 0 0 8px;
+}
+
+.ntx-footer__bottom {
+  padding-top: 20px;
+  padding-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: #64748b;
+}
+
+/* ==========================================================================
+   11. DRAWERS, MODALS (SEVIMLILAR, SAVATCHA, QUICK VIEW, COMPARE)
+   ========================================================================== */
+
+.ntx-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(7, 13, 25, 0.62);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ntx-overlay--center {
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.ntx-drawer {
+  width: 100%;
+  max-width: 440px;
+  height: 100%;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -16px 0 48px rgba(15, 23, 42, 0.25);
+  animation: ntxDrawerSlideIn 0.3s var(--ntx-ease-spring);
+}
+
+.ntx-drawer--wide {
+  max-width: 500px;
+}
+
+.ntx-drawer__head,
+.ntx-modal__head {
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--ntx-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ntx-drawer__head h3,
+.ntx-modal__head h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.ntx-drawer__head span {
+  font-size: 12.5px;
+  color: var(--ntx-ink-muted);
+}
+
+.ntx-close-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid var(--ntx-border);
+  background: var(--ntx-surface-alt);
+  font-size: 15px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  transition: all 0.18s ease;
+}
+
+.ntx-close-btn:hover {
+  background: var(--ntx-rose-soft);
+  border-color: #fecdd3;
+  color: var(--ntx-rose);
+}
+
+.ntx-drawer__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 22px;
+}
+
+.ntx-drawer__foot {
+  padding: 18px 22px;
+  border-top: 1px solid var(--ntx-border);
+  background: var(--ntx-surface-alt);
+}
+
+.ntx-drawer-empty {
+  text-align: center;
+  padding: 48px 16px;
+}
+
+.ntx-drawer-empty span {
+  font-size: 44px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.ntx-drawer-empty h4 {
+  margin: 0 0 8px;
+  font-size: 17px;
+}
+
+.ntx-drawer-empty p {
+  margin: 0 0 20px;
+  font-size: 14px;
+  color: var(--ntx-ink-muted);
+}
+
+/* Sevimlilar ro'yxati */
+.ntx-fav-list,
+.ntx-cart-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ntx-fav-item,
+.ntx-cart-item {
+  display: flex;
+  gap: 14px;
+  padding: 12px;
+  border-radius: var(--ntx-radius-md);
+  border: 1px solid var(--ntx-border);
+  background: #ffffff;
+}
+
+.ntx-fav-item img,
+.ntx-cart-item img {
+  width: 78px;
+  height: 78px;
+  object-fit: cover;
+  border-radius: 10px;
+  background: var(--ntx-surface-alt);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.ntx-fav-item__info,
+.ntx-cart-item__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.ntx-fav-item__brand,
+.ntx-cart-item__brand {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--ntx-primary);
+}
+
+.ntx-fav-item__info h4,
+.ntx-cart-item__info h4 {
+  margin: 2px 0 6px;
+  font-size: 13.5px;
+  line-height: 1.35;
+  cursor: pointer;
+}
+
+.ntx-fav-item__price {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.ntx-fav-item__price strong {
+  font-size: 14.5px;
+}
+
+.ntx-fav-item__price span {
+  font-size: 12px;
+  color: var(--ntx-ink-subtle);
+  text-decoration: line-through;
+}
+
+.ntx-fav-item__actions {
+  display: flex;
+  gap: 8px;
+}
+
+.ntx-drawer-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 15px;
+}
+
+.ntx-drawer-total strong {
+  font-size: 18px;
+  color: var(--ntx-primary);
+}
+
+/* Savatcha va Checkout elementlari */
+.ntx-free-ship-bar {
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--ntx-emerald-soft);
+  border: 1px solid #a7f3d0;
+  color: var(--ntx-emerald-dark);
+  font-size: 13px;
+  margin-bottom: 14px;
+}
+
+.ntx-cart-item__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.ntx-qty-mini {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--ntx-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.ntx-qty-mini button {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: var(--ntx-surface-alt);
+  font-weight: 800;
+}
+
+.ntx-qty-mini span {
+  min-width: 26px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.ntx-cart-item__del {
+  border: none;
+  background: none;
+  padding: 4px;
+  opacity: 0.7;
+}
+
+.ntx-cart-item__del:hover {
+  opacity: 1;
+}
+
+.ntx-promo-box {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.ntx-promo-box input {
+  flex: 1;
+  height: 42px;
+  border-radius: var(--ntx-radius-md);
+  border: 1px solid var(--ntx-border);
+  padding: 0 12px;
+  font-size: 13.5px;
+}
+
+.ntx-promo-applied {
+  margin-top: 8px;
+  padding: 8px 12px;
+  border-radius: 9px;
+  background: var(--ntx-emerald-soft);
+  color: var(--ntx-emerald-dark);
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ntx-promo-applied button {
+  border: none;
+  background: none;
+  color: var(--ntx-danger);
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.ntx-summary-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 14px;
+  font-size: 13.5px;
+}
+
+.ntx-summary-lines > div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ntx-summary-lines .is-saving {
+  color: var(--ntx-emerald-dark);
+  font-weight: 600;
+}
+
+.ntx-summary-lines .is-total {
+  padding-top: 8px;
+  border-top: 1px solid var(--ntx-border);
+  font-size: 16px;
+  font-weight: 800;
+}
+
+/* Checkout Form */
+.ntx-checkout-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ntx-form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.ntx-form-group input {
+  width: 100%;
+  height: 42px;
+  border-radius: 10px;
+  border: 1px solid var(--ntx-border);
+  padding: 0 12px;
+  font-size: 14px;
+}
+
+.ntx-form-group input:focus {
+  border-color: var(--ntx-primary);
+  outline: none;
+}
+
+.ntx-form-error {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ntx-danger);
+}
+
+.ntx-radio-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.ntx-radio-grid button {
+  padding: 10px 12px;
+  border-radius: 11px;
+  border: 1.5px solid var(--ntx-border);
+  background: #ffffff;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ntx-radio-grid button strong {
+  font-size: 13px;
+}
+
+.ntx-radio-grid button span {
+  font-size: 11.5px;
+  color: var(--ntx-ink-muted);
+}
+
+.ntx-radio-grid button.is-active {
+  border-color: var(--ntx-primary);
+  background: var(--ntx-primary-soft);
+}
+
+.ntx-checkout-foot-btns {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+}
+
+.ntx-order-success {
+  text-align: center;
+  padding: 20px 8px;
+}
+
+.ntx-order-success__icon {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.ntx-order-success__box {
+  text-align: left;
+  background: var(--ntx-surface-alt);
+  border: 1px solid var(--ntx-border);
+  border-radius: 12px;
+  padding: 14px;
+  margin: 16px 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13.5px;
+}
+
+.ntx-order-success__box div {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Modals (Quick View, Compare, Orders) */
+.ntx-modal {
+  position: relative;
+  width: 100%;
+  max-width: 920px;
+  max-height: 90vh;
+  background: #ffffff;
+  border-radius: var(--ntx-radius-xl);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--ntx-shadow-lg);
+  animation: ntxModalScaleIn 0.28s var(--ntx-ease-spring);
+}
+
+.ntx-modal__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 10;
+}
+
+.ntx-modal__body {
+  padding: 22px;
+  overflow-y: auto;
+}
+
+/* Quick View Grid */
+.ntx-qv-grid {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.95fr) minmax(0, 1.15fr);
+  gap: 28px;
+  padding: 28px;
+  overflow-y: auto;
+}
+
+.ntx-qv-media {
+  background: var(--ntx-surface-alt);
+  border-radius: var(--ntx-radius-lg);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.ntx-qv-media img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.ntx-qv-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ntx-qv-badges span {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 1px solid var(--ntx-border);
+}
+
+.ntx-qv-brand {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ntx-primary);
+}
+
+.ntx-qv-details h3 {
+  margin: 6px 0 8px;
+  font-size: 22px;
+  line-height: 1.25;
+}
+
+.ntx-qv-rating {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ntx-ink-secondary);
+  margin-bottom: 12px;
+}
+
+.ntx-qv-desc {
+  margin: 0 0 16px;
+  font-size: 14px;
+  color: var(--ntx-ink-muted);
+  line-height: 1.6;
+}
+
+.ntx-qv-price-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: var(--ntx-primary-soft);
+  border: 1px solid var(--ntx-primary-border);
+  margin-bottom: 18px;
+}
+
+.ntx-qv-old {
+  display: block;
+  font-size: 13px;
+  color: var(--ntx-ink-muted);
+  text-decoration: line-through;
+}
+
+.ntx-qv-price {
+  font-size: 23px;
+  font-weight: 800;
+  color: var(--ntx-primary);
+}
+
+.ntx-qv-installment {
+  font-size: 13px;
+  background: #ffffff;
+  padding: 6px 11px;
+  border-radius: 8px;
+}
+
+.ntx-qv-specs h4 {
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+
+.ntx-qv-specs table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-bottom: 18px;
+}
+
+.ntx-qv-specs td {
+  padding: 7px 4px;
+  border-bottom: 1px solid var(--ntx-surface-muted);
+}
+
+.ntx-qv-specs td:first-child {
+  color: var(--ntx-ink-muted);
+}
+
+.ntx-qv-specs td:last-child {
+  text-align: right;
+}
+
+.ntx-qv-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Taqqoslash Jadvali */
+.ntx-compare-modal {
+  max-width: 1040px;
+}
+
+.ntx-compare-table-wrap {
+  overflow-x: auto;
+}
+
+.ntx-compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.ntx-compare-table th,
+.ntx-compare-table td {
+  padding: 12px 14px;
+  border: 1px solid var(--ntx-border);
+  vertical-align: top;
+}
+
+.ntx-compare-col-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  min-width: 180px;
+}
+
+.ntx-compare-col-head img {
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.ntx-compare-price {
+  font-weight: 800;
+  color: var(--ntx-primary);
+}
+
+.ntx-compare-col-btns {
+  display: flex;
+  gap: 6px;
+}
+
+/* Buyurtmalar ro'yxati */
+.ntx-orders-modal {
+  max-width: 640px;
+}
+
+.ntx-orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ntx-order-card {
+  border: 1px solid var(--ntx-border);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.ntx-order-card__head,
+.ntx-order-card__foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.ntx-order-card__head span {
+  display: block;
+  font-size: 12px;
+  color: var(--ntx-ink-muted);
+}
+
+.ntx-order-status {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--ntx-radius-pill);
+  background: var(--ntx-emerald-soft);
+  color: var(--ntx-emerald-dark);
+}
+
+.ntx-order-card__items {
+  margin: 10px 0;
+  padding: 8px 0;
+  border-top: 1px dashed var(--ntx-border);
+  border-bottom: 1px dashed var(--ntx-border);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+}
+
+/* ==========================================================================
+   12. TOAST BILDIRISHNOMALAR
+   ========================================================================== */
+
+.ntx-toast-stack {
+  position: fixed;
+  bottom: 22px;
+  right: 22px;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 340px;
+  pointer-events: none;
+}
+
+.ntx-toast {
+  background: var(--ntx-navy-900);
+  color: #ffffff;
+  border-left: 4px solid var(--ntx-primary);
+  border-radius: 12px;
+  padding: 12px 16px;
+  box-shadow: var(--ntx-shadow-lg);
+  animation: ntxToastIn 0.26s var(--ntx-ease-spring);
+}
+
+.ntx-toast strong {
+  display: block;
+  font-size: 13.5px;
+}
+
+.ntx-toast span {
+  display: block;
+  font-size: 12px;
+  color: #cbd5e1;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ntx-toast--success {
+  border-left-color: var(--ntx-emerald);
+}
+
+.ntx-toast--favorite {
+  border-left-color: var(--ntx-rose);
+}
+
+.ntx-toast--warning {
+  border-left-color: var(--ntx-amber);
+}
+
+/* ==========================================================================
+   13. RESPONSIVE BREAKPOINTS (Tablet & Mobile)
+   ========================================================================== */
+
+@media (max-width: 1200px) {
+  .ntx-products-grid--grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ntx-hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ntx-trust-strip__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 960px) {
+  .ntx-catalog-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .ntx-mobile-filter-btn {
+    display: inline-flex;
+  }
+
+  .ntx-sidebar {
+    display: none;
+  }
+
+  .ntx-sidebar.is-mobile-open {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 250;
+    border-radius: 0;
+    overflow-y: auto;
+  }
+
+  .ntx-sidebar__mobile-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 14px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--ntx-border);
+  }
+
+  .ntx-calc-card,
+  .ntx-qv-grid,
+  .ntx-footer__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ntx-header-action__label {
+    display: none;
+  }
+}
+
+@media (max-width: 680px) {
+  .ntx-container {
+    padding: 0 14px;
+  }
+
+  .ntx-topbar__eta,
+  .ntx-catalog-btn {
+    display: none;
+  }
+
+  .ntx-header__inner {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .ntx-search {
+    order: 3;
+    flex-basis: 100%;
+  }
+
+  .ntx-hero-banner {
+    grid-template-columns: 1fr;
+    padding: 24px 20px;
+  }
+
+  .ntx-hero-banner__stats {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .ntx-trust-strip__grid,
+  .ntx-products-grid--grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ntx-card--list {
+    flex-direction: column;
+  }
+
+  .ntx-card--list .ntx-card__media {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--ntx-surface-muted);
+  }
+}
+
+/* ==========================================================================
+   14. ACCESSIBILITY: REDUCED MOTION
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
